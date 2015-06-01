@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<config>
+	<fieldset name="frontend" label="Frontend parameters" decription="Frontend parameters">
+        <field name="frontend_url" type="text" default="" size="50"
+               label="Geef een URL voor de frontend in"
+               class="input-xxlarge"/>
+
+    </fieldset>
+</config>
