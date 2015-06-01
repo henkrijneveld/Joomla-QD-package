@@ -19,6 +19,7 @@
 		to copy FROM in the package to install therefore files copied
 		in this section are copied from /site/ in the package -->
 	<files folder="site">
+        <folder>views</folder>
 		<filename>basiccomponent.php</filename>
 	</files>
 
