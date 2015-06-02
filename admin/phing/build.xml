@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="joomla-QD" default="default" basedir="/">
+    <property file="${phing.dir}/build.properties" />
+
+    <!-- PREPARE -->
+    <target name="prepare">
+        <echo message="phing dir: ${phing.dir}" />
+        <echo message="Checking and creating output directory" />
+        <mkdir dir="${output.git.directory}" />
+        <mkdir dir="${output.git.directory}/admin" />
+        <mkdir dir="${output.git.directory}/site" />
+    </target>
+
+    <!-- COPY -->
+    <target name="copy" depends="prepare" >
+        <echo message="Copy manifest" />
+        <copy todir="${output.git.directory}" >
+            <fileset dir="${input.joomla.directory}/administrator/components/com_${component.name}">
+                <include name="${component.name}.xml" />
+            </fileset>
+        </copy>
+
+        <echo message="Copy admin" />
+        <copy todir="${output.git.directory}/admin" >
+            <fileset dir="${input.joomla.directory}/administrator/components/com_${component.name}">
+                <include name="**" />
+                <exclude name="${component.name}.xml" />
+            </fileset>
+        </copy>
+
+        <echo message="Copy site" />
+        <copy todir="${output.git.directory}/site" >
+            <fileset dir="${input.joomla.directory}/components/com_${component.name}">
+                <include name="**" />
+            </fileset>
+        </copy>
+    </target>
+
+    <!-- PRODUCE ZIP -->
+    <target name="default" depends="copy">
+        <echo message="Start Zipp'n" />
+        <zip destfile="${output.git.directory}/${component.name}.zip">
+            <fileset dir="${output.git.directory}">
+                <include name="**/**" />
+                <exclude name="*.zip" />
+                <exclude name=".git" />
+                <exclude name=".idea" />
+                <exclude name="LICENSE" />
+                <exclude name="README.md" />
+                <exclude name="admin/phing/**" />
+            </fileset>
+        </zip>
+
+        <echo message="Joomla-QD klaar en gereed in ${output.git.directory}" />
+    </target>
+</project>
+
