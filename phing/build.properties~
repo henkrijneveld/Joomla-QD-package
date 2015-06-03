@@ -1,5 +1,5 @@
-input.joomla.directory=Devsites/sites/userimport/html/j341
-output.git.directory=Devsites/sites/userimport/html/joomla-QD
+input.joomla.directory=home/henk/Projecten/Userimport-PlainPHP/html/j341
+output.git.directory=home/henk/Projecten/Userimport-PlainPHP/html/joomla-QD
 component.name=basiccomponent
 
 

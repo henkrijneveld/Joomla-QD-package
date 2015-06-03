@@ -47,7 +47,7 @@
                 <exclude name=".idea" />
                 <exclude name="LICENSE" />
                 <exclude name="README.md" />
-                <exclude name="phing/**" />
+                <exclude name="admin/phing/**" />
             </fileset>
         </zip>
 
