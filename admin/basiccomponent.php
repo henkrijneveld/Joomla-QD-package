@@ -5,6 +5,9 @@ JToolBarHelper::preferences('com_basiccomponent');
 $jinput = JFactory::getApplication()->input;
 
 $filename = null;
+$fileerror = true;
+$uploadfile = "";
+
 if (!empty($_FILES) && !empty($_FILES["file"])) {
     $fileerror = $_FILES["file"]["error"];
     $filename = $_FILES["file"]["name"];
@@ -29,14 +32,44 @@ if (!empty($_FILES) && !empty($_FILES["file"])) {
 
 <?php if ($filename) {
     if ($fileerror) {
-        echo "Error processing file $filename. Errorcode: $fileerror";
+        $errortext = array(
+               UPLOAD_ERR_INI_SIZE =>"The uploaded file exceeds the upload_max_filesize directive in php.ini",
+               UPLOAD_ERR_FORM_SIZE =>"The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form",
+               UPLOAD_ERR_PARTIAL => "The uploaded file was only partially uploaded",
+               UPLOAD_ERR_NO_FILE => "No file was uploaded",
+               UPLOAD_ERR_NO_TMP_DIR => "Missing a temporary folder",
+               UPLOAD_ERR_CANT_WRITE => "Failed to write file to disk",
+               UPLOAD_ERR_EXTENSION => "File upload stopped by extension"
+            );
+
+        echo "Error processing file $filename. Errorcode: $fileerror (";
+        echo array_key_exists($fileerror, $errortext)?$errortext[$fileerror]:"Unknown error";
+        echo ")<br>";
     }
 
     if (!$fileerror) {
-        ?><p>Contents of file <b><?= $filename; ?></b> (local name: <?= $uploadfile ?>)</p><br>
-        <?= file_get_contents($uploadfile);
+        ?><p>Processing of file <b><?= $filename; ?></b> (local name: <?= $uploadfile ?>)</p><br>
+        <?php // echo file_get_contents($uploadfile);
 
-    }
-} ?>
+        JLoader::discover("VcUser", JPATH_COMPONENT."/vc/user");
+        $cf = JFactory::getConfig();
+        $config = VcUserHandler::makeConfig(
+            $cf->get('host'),
+            $cf->get('db'),
+            3306,
+            $cf->get('user'),
+            $cf->get('password'),
+            $cf->get('dbprefix')
+        );
+        $a = new VcUserHandler($config, false, true);
+        $a->import($uploadfile);
+    }?>
+
+    <form method="post" action="<?php echo JURI::current();?>?option=com_basiccomponent" enctype="multipart/form-data">
+        <br><br>
+        <input type="submit" value="Again">
+    </form>
+
+<?php } ?>
 
 

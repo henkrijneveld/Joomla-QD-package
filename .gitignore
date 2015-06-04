@@ -1,2 +1,6 @@
 phing/build.properties
+**/*.*~
+.idea
+**/thumb.db
+
 
