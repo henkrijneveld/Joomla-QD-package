@@ -17,12 +17,14 @@ if (!empty($_FILES) && !empty($_FILES["file"])) {
 }
 ?>
 
-
-
 <?php if (!$filename):?>
 <h1>User importer</h1>
+<p>File format should be csv, and contain the following fields: name, username, email, password, group-1, group-2, group-3.</p>
+<p>At least one group should be provided. The name must exactly match the name of the group,
+    beware for translations (look it up in your Joomla installation).</p>
+<p>No emails are sent to the new users, so you have to inform them in a other way.</p>
 <form method="post" action="<?php echo JURI::current();?>?option=com_basiccomponent" enctype="multipart/form-data">
-    <p>Select the file with user to be imported from your local system</p><br>
+    <p>Select the file with user to be imported from your local system.</p><br>
     <input type="hidden" name="MAX_FILE_SIZE" value="32000" />
     <input type="file" name="file" size="100">
     <br><br>
